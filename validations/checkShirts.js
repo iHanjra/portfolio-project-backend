@@ -16,15 +16,18 @@ const isValidUrl = (string) => {
   }
 };
 
-const checkImage = (req, res, next) => {
-  const imageUrl = req.body.image;
+const validateUrl = (urlType) => (req, res, next) => {
+  const url = req.body[urlType];
 
-  if (!imageUrl || isValidUrl(imageUrl)) {
+  if (!url || isValidUrl(url)) {
     next();
   } else {
-    res.status(400).json({ error: "Invalid image URL." });
+    res.status(400).json({ error: `Invalid ${urlType} URL.` });
   }
 };
+
+const checkImage = validateUrl("image");
+const checkStore = validateUrl("store");
 
 const checkBoolean = (req, res, next) => {
   if (typeof req.body.is_favorite !== "boolean") {
@@ -42,5 +45,5 @@ const checkName = (req, res, next) => {
   }
 };
 
-module.exports = { checkBoolean, checkName, checkPrice, checkImage };
+module.exports = { checkBoolean, checkName, checkPrice, checkImage, checkStore };
 

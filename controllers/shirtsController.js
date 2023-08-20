@@ -7,7 +7,7 @@ const {
   deleteShirtById,
   updateShirtById,
 } = require("../queries/shirts");
-const { checkImage, checkBoolean, checkName, checkPrice } = require("../validations/checkShirts")
+const { checkImage, checkBoolean, checkName, checkPrice, checkStore } = require("../validations/checkShirts")
 
 router.get("/", async (req, res) => {
   const allShirts = await getAllShirts();
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", checkImage, checkBoolean, checkName, checkPrice, async (req, res) => {
+router.post("/", checkImage, checkBoolean, checkName, checkPrice, checkStore, async (req, res) => {
   try {
     const imageUrl = req.body.image
       ? req.body.art
@@ -57,7 +57,14 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", checkImage, checkBoolean, checkName, checkPrice, async (req, res) => {
+router.put(
+  "/:id",
+  checkImage,
+  checkBoolean,
+  checkName,
+  checkPrice,
+  checkStore,
+  async (req, res) => {
     try {
       const { id } = req.params;
       const imageUrl = req.body.image
