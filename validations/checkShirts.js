@@ -1,6 +1,6 @@
 const checkPrice = (req, res, next) => {
   const price = req.body.price;
-  if (price < 0) {
+  if (price < 0 || price > 999999) {
     res.status(400).json({ error: "Invalid price." });
   } else {
     next();
